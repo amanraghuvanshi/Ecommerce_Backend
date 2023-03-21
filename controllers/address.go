@@ -30,7 +30,7 @@ func AddAddress() gin.HandlerFunc {
 
 		addresses.Address_ID = primitive.NewObjectID()
 
-		if err = c.BindJSON(&addresses); err != nil {
+		if err = c.BindJSON(addresses); err != nil {
 			c.IndentedJSON(http.StatusNotAcceptable, gin.H{"Error": err.Error()})
 		}
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)

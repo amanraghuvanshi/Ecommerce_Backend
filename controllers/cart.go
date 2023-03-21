@@ -185,13 +185,13 @@ func (app *Application) InstantBuy() gin.HandlerFunc {
 			_ = c.AbortWithError(http.StatusBadRequest, errors.New("product id is empty"))
 			return
 		}
-		user_id := c.Param("user_id")
-		if user_id == "" {
+		userId := c.Param("user_id")
+		if userId == "" {
 			log.Println("User ID is empty")
 			_ = c.AbortWithError(http.StatusBadRequest, errors.New("user Id is empty"))
 			return
 		}
-		pid, err := primitive.ObjectIDFromHex(productQueryId)
+		pID, err := primitive.ObjectIDFromHex(productQueryId)
 		if err != nil {
 			log.Println(err)
 			c.AbortWithStatus(http.StatusInternalServerError)
@@ -201,7 +201,7 @@ func (app *Application) InstantBuy() gin.HandlerFunc {
 
 		defer cancel()
 
-		err = database.InstantBuyer(ctx, app.prodCollection, app.userCollection, pid, user_id)
+		err = database.InstantBuyer(ctx, app.prodCollection, app.userCollection, pID, userId)
 
 		if err != nil {
 			c.IndentedJSON(http.StatusInternalServerError, err)

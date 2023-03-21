@@ -15,7 +15,7 @@ import (
 var (
 	ErrorCantFindProduct    = errors.New("can't find the product")
 	ErrorCantDecodeProducts = errors.New("can't find the product")
-	ErrorUserNotvalid       = errors.New("user is not valid or userID is not valid")
+	ErrorUserNotvalid       = errors.New("user is not valid")
 	ErrorCantUpdateUser     = errors.New("can't add the product to cart")
 	ErrorCantRemoveItem     = errors.New("can't remove the product from cart")
 	ErrorCantGetItem        = errors.New("can't get the item from cart")

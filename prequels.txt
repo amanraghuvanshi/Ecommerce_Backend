@@ -14,6 +14,7 @@ The folder have been structured into categories like:
 
 5) Tokens: In this one, we would be primarly working with Authentication, from the User Signup, Login and creation of Token etc.
 
+<<<<<<< HEAD
 API FUNCTIONING OVER THE APPLICATION:
 
 1) SIGNUP (POST): 
@@ -60,3 +61,14 @@ API FUNCTIONING OVER THE APPLICATION:
 
 14) INSTANT BUYING THE PRODUCT (GET): 
 	http://localhost:5000/instantbuy?userid=xxuseridxx&pid=xxprodIDxx
+=======
+
+--------------------------------------
+I have adopted the bottom-top approach for developing this application, so I have worked on my routes first, in which 
+There are seperate functions, that would be exposing seperate functionalities. So we have userRoutes that is responsible for all the user operation that we will be performing.
+Similarily, we have Orders, and all other functions, from which we will be having communication. This particular workspace has every API that we would be using in order to perform all the operations that we will be needed. Along with this, if we need to further scale up the application we can also modify it, according to the requirements.
+------------------------------------------
+Going up towards the models, 
+I have defined them in a single file, in order to maintain the simplicity of codes. So, I have created different models for every aspect that we basically need in ecom. We have a user here who will have all the basic details along with their Tokens, and cart status.
+Then we have products, with their definition as the ID, Name and related details
+>>>>>>> 441b6f28ec89b35bda2247c96973057d784eca5a
