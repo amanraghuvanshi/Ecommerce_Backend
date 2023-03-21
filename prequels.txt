@@ -14,12 +14,49 @@ The folder have been structured into categories like:
 
 5) Tokens: In this one, we would be primarly working with Authentication, from the User Signup, Login and creation of Token etc.
 
+API FUNCTIONING OVER THE APPLICATION:
 
---------------------------------------
-I have adopted the bottom-top approach for developing this application, so I have worked on my routes first, in which 
-There are seperate functions, that would be exposing seperate functionalities. So we have userRoutes that is responsible for all the user operation that we will be performing.
-Similarily, we have Orders, and all other functions, from which we will be having communication. This particular workspace has every API that we would be using in order to perform all the operations that we will be needed. Along with this, if we need to further scale up the application we can also modify it, according to the requirements.
-------------------------------------------
-Going up towards the models, 
-I have defined them in a single file, in order to maintain the simplicity of codes. So, I have created different models for every aspect that we basically need in ecom. We have a user here who will have all the basic details along with their Tokens, and cart status.
-Then we have products, with their definition as the ID, Name and related details
+1) SIGNUP (POST): 
+	http://localhost:5000/users/signup
+
+2) LOGIN (POST):
+	 http://localhost:5000/users/login
+
+3) ADMIN ADD PRODUCT FUNCTION (POST):	
+	http://localhost:5000/admin/addproduct
+
+4) VIEW ALL PRODUCTS (GET):
+	http://localhost:5000/users/productview
+
+5) SEARCH PRODUCT BY REGEX FUNCTION (GET):
+	http://localhost:5000/users/search?name=
+
+<----------------------------------------------->
+
+6) ADDING THE PRODUCT TO THE CART (GET):
+	http://localhost:5000/addtocart?id=product_id&userID=user_ID
+
+7) REMOVING ITEM FROM THE CART (GET): 
+	http://localhost:5000/removecart?id=xxprodIdxx&userID=userID
+
+8) LISTING THE ITEMS IN THE USER CART AND TOTAL PRICE (GET):
+	http://localhost:5000/listcart?id=xxxxuser_idxxxx
+
+9) ADDING THE ADDRESS (POST):
+	http://localhost:5000/addaddress?id=user_id
+	ONLY TWO ADDRESS ALLOWED (HOME AND WORK)
+
+10) EDITING HOME ADDRESS (PUT):
+	http://localhost:5000/edithomeaddress?id=xxxuser_idxxx
+
+11) EDIT WORK ADDRESS (PUT):
+	http://localhost:5000/editworkaddress?id=xxxuser_idxxx
+
+12) DELETE ADDRESS (GET):
+	http://localhost:5000/deleteaddress?id=xxxuser_idxxx
+
+13) CART CHECKOUT AND PLACING THE ORDER (GET):
+	http://localhost:5000/cartcheckout?id=xxuser_idxx
+
+14) INSTANT BUYING THE PRODUCT (GET): 
+	http://localhost:5000/instantbuy?userid=xxuseridxx&pid=xxprodIDxx

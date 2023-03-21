@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/amanraghuvanshi/ecombackend/database"
+	database "github.com/amanraghuvanshi/ecombackend/databases"
 	"github.com/amanraghuvanshi/ecombackend/models"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -33,7 +33,7 @@ func (app *Application) AddToCart() gin.HandlerFunc {
 		productQueryID := c.Param("id")
 		if productQueryID == "" {
 			log.Println("Product ID empty")
-			_ = c.AbortWithError(http.StatusBadRequest, errors.New("Empty Product ID"))
+			_ = c.AbortWithError(http.StatusBadRequest, errors.New("empty product id"))
 			return
 		}
 
@@ -69,7 +69,7 @@ func (app *Application) RemoveItem() gin.HandlerFunc {
 
 		if productQueryID == "" {
 			log.Println("product ID is empty")
-			_ = c.AbortWithError(http.StatusBadRequest, errors.New("Empty product ID"))
+			_ = c.AbortWithError(http.StatusBadRequest, errors.New("empty product id"))
 			return
 		}
 
@@ -182,16 +182,16 @@ func (app *Application) InstantBuy() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		productQueryId := c.Param("id")
 		if productQueryId == "" {
-			_ = c.AbortWithError(http.StatusBadRequest, errors.New("Product ID is empty"))
+			_ = c.AbortWithError(http.StatusBadRequest, errors.New("product id is empty"))
 			return
 		}
-		userId := c.Param("user_id")
-		if userId == "" {
+		user_id := c.Param("user_id")
+		if user_id == "" {
 			log.Println("User ID is empty")
 			_ = c.AbortWithError(http.StatusBadRequest, errors.New("user Id is empty"))
 			return
 		}
-		pID, err := primitive.ObjectIDFromHex(productQueryId)
+		pid, err := primitive.ObjectIDFromHex(productQueryId)
 		if err != nil {
 			log.Println(err)
 			c.AbortWithStatus(http.StatusInternalServerError)
@@ -201,7 +201,7 @@ func (app *Application) InstantBuy() gin.HandlerFunc {
 
 		defer cancel()
 
-		err = database.InstantBuyer(ctx, app.prodCollection, app.userCollection, pID, userId)
+		err = database.InstantBuyer(ctx, app.prodCollection, app.userCollection, pid, user_id)
 
 		if err != nil {
 			c.IndentedJSON(http.StatusInternalServerError, err)

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/amanraghuvanshi/ecombackend/database"
+	database "github.com/amanraghuvanshi/ecombackend/databases"
 	"github.com/amanraghuvanshi/ecombackend/models"
 	"github.com/amanraghuvanshi/ecombackend/tokens"
 	"github.com/gin-gonic/gin"
@@ -94,11 +94,11 @@ func Signup() gin.HandlerFunc {
 		user.Updated_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		user.ID = primitive.NewObjectID()
 		user.User_ID = user.ID.Hex()
-		token, refresh_token := tokens.GenerateToken(*user.Email, *user.First_name, *user.Last_name, *user.User_ID)
+		token, refresh_token, _ := tokens.TokenGenerator(*user.Email, *user.First_name, *user.Last_name, user.User_ID)
 		user.Token = &token
 		user.Refresh_token = &refresh_token
-		user.UserCart = make([]models.ProductUse, 0)
-		user.Address_Details = make([]models.Address_Details, 0)
+		user.UserCart = make([]models.ProductUser, 0)
+		user.Address_Details = make([]models.Address, 0)
 		user.Order_status = make([]models.Order, 0)
 
 		// inserting the user in the database
@@ -145,11 +145,11 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		token, refresh_token, _ := tokens.GenerateToken(*foundUser.Email, *&foundUser.First_name, *&foundUser.Last_name, *foundUser.User_ID)
+		token, refresh_token, _ := tokens.TokenGenerator(*foundUser.Email, *foundUser.First_name, *foundUser.Last_name, foundUser.User_ID)
 
 		defer cancel()
 
-		tokens.UpdateAllTokens(token, refresh_token, foundUser.User_ID)
+		tokens.UpdateAllToken(token, refresh_token, foundUser.User_ID)
 
 		c.JSON(http.StatusFound, foundUser)
 
@@ -159,7 +159,24 @@ func Login() gin.HandlerFunc {
 // For products
 func ProductViewerAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		var products models.Product
 
+		defer cancel()
+
+		if err := c.BindJSON(&products); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"ERROR": err.Error()})
+			return
+		}
+
+		products.Product_ID = primitive.NewObjectID()
+		_, anyErr := ProductCollection.InsertOne(ctx, products)
+		if anyErr != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Not Created"})
+			return
+		}
+		defer cancel()
+		c.JSON(http.StatusOK, "Successfully added the Product Admin")
 	}
 }
 

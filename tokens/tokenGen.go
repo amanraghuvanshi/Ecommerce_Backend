@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/amanraghuvanshi/ecombackend/database"
+	database "github.com/amanraghuvanshi/ecombackend/databases"
 	"github.com/golang-jwt/jwt/v4"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -65,8 +65,8 @@ func ValidateToken(signedToken string) (claims *SignedDetails, mesg string) {
 		// log.Panic(msg)
 		return
 	}
-	claims, err = token.Claims.(*SignedDetails)
-	if err != nil {
+	claims, ok := token.Claims.(*SignedDetails)
+	if !ok {
 		msg = "TOKEN INVALID"
 		// log.Panic(msg)
 		return

@@ -11,7 +11,7 @@ import (
 )
 
 func DBSetup() *mongo.Client {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://amanraghuvanshi:Shik_@@7610@apicluster.jsjbnbb.mongodb.net/?retryWrites=true&w=majority"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		log.Fatal(err)
 	}
